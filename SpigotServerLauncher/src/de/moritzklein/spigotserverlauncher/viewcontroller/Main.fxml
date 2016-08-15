@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="385.0" prefWidth="599.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.moritzklein.spigotserverlauncher.viewcontroller.MainController">
+   <children>
+      <TextArea fx:id="taServerOutput" layoutX="15.0" layoutY="14.0" prefHeight="319.0" prefWidth="568.0" />
+      <TextField fx:id="tfCommand" layoutX="14.0" layoutY="345.0" prefHeight="27.0" prefWidth="288.0" />
+      <Button fx:id="btnStartStop" layoutX="477.0" layoutY="345.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="106.0" text="Start" />
+      <Button fx:id="btnSend" layoutX="320.0" layoutY="345.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="131.0" text="Send" />
+   </children>
+</AnchorPane>
