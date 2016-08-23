@@ -30,7 +30,7 @@ public class ServerLauncher {
 		processBuilder.directory(new File(getClass().getResource("/").getFile()));
 	}
 	
-	public void startProcess() {
+	public void startServer() {
 		running = true;
 		
 		processThread = new Thread(new Runnable() {
@@ -47,7 +47,7 @@ public class ServerLauncher {
 					String line;
 					
 					while((line = brInput.readLine()) != null) {
-						mainController.updateTaServerOutput(line);
+						mainController.setTextLater(line);
 					}
 					
 					serverProcess.waitFor();
@@ -63,17 +63,10 @@ public class ServerLauncher {
 		processThread.start();
 	}
 	
-	public void stopProcess() {
+	public void stopServer() {
 		running = false;
 		
-		try {
-			
-			bwOutput.write("stop\n");
-			bwOutput.flush();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		sendCommand("stop");
 	}
 	
 	public synchronized BufferedWriter getBufferedWriter() {
@@ -82,6 +75,15 @@ public class ServerLauncher {
 	
 	public boolean isRunning() {
 		return running;
+	}
+	
+	public void sendCommand(String pCommand) {
+		try {
+			bwOutput.write(pCommand + "\n");
+			bwOutput.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

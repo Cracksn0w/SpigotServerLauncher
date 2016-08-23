@@ -1,12 +1,7 @@
 package de.moritzklein.spigotserverlauncher.viewcontroller;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-
 import de.moritzklein.spigotserverlauncher.ServerLauncher;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -28,11 +23,13 @@ public class MainController {
 	
 	private ServerLauncher serverLauncher;
 	
-	public void updateTaServerOutput(String pText) {
+	private Alert infoAlert;
+	
+	public void setTextLater(String pText) {
 		Platform.runLater(new Runnable() {
 			
 			public void run() {
-				taServerOutput.setText(taServerOutput.getText() + pText + "\n");
+				taServerOutput.appendText(pText + "\n");
 			}
 			
 		});
@@ -41,45 +38,43 @@ public class MainController {
 	public void initComponent() {
 		taServerOutput.setEditable(false);
 		
-		btnSend.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				if(tfCommand.getText().equalsIgnoreCase("")) return;
-				
-				try {
-					BufferedWriter bWriter = serverLauncher.getBufferedWriter();
-					
-					bWriter.write(tfCommand.getText() + "\n");
-					bWriter.flush();
-					
-					tfCommand.setText("");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
-		
-		btnStartStop.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				
-				if(serverLauncher.isRunning() == false) {
-					taServerOutput.setText("");
-					serverLauncher.startProcess();
-					btnStartStop.setText("Stop");
-				}else {
-					serverLauncher.stopProcess();
-					btnStartStop.setText("Start");
-				}
-				
-			}
-			
-		});
-		
 		serverLauncher = new ServerLauncher(this);
 	}
 	
+	@FXML
+	public void clearConsoleMenuItem() {
+		taServerOutput.clear();
+	}
+	
+	@FXML
+	public void sendCommandButton() {
+		if(tfCommand.getText().equalsIgnoreCase("") || serverLauncher.getBufferedWriter() == null) return;
+		
+		serverLauncher.sendCommand(tfCommand.getText());
+		tfCommand.clear();
+	}
+	
+	
+	@FXML
+	public void startServerStopServerButton() {
+		if(serverLauncher.isRunning() == false) {
+			taServerOutput.clear();
+			serverLauncher.startServer();
+			btnStartStop.setText("Stop");
+		}else {
+			serverLauncher.stopServer();
+			btnStartStop.setText("Start");
+		}
+	}
+	
+	@FXML
+	public void startServerMenuItem() {
+		if(serverLauncher.isRunning() == false) {
+			taServerOutput.clear();
+			serverLauncher.startServer();
+			btnStartStop.setText("Stop");
+		}else {
+			
+		}
+	}
 }

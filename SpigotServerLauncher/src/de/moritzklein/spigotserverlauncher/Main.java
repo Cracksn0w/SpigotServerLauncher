@@ -4,6 +4,7 @@ import de.moritzklein.spigotserverlauncher.viewcontroller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,16 +18,16 @@ public class Main extends Application {
 	@Override
 	public void start(Stage mainStage) throws Exception {
 		mainStage.setTitle("Spigot Server Launcher");
-		mainStage.setWidth(599);
-		mainStage.setHeight(400);	
+		mainStage.setWidth(850);
+		mainStage.setHeight(590);	
 		mainStage.setResizable(false);	
 		
 		FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("/de/moritzklein/spigotserverlauncher/viewcontroller/Main.fxml"));
-		Scene scene = new Scene(mainLoader.load());
+		Pane mainPane = mainLoader.load();
 		mainController = mainLoader.getController();
 		mainController.initComponent();
 		
-		mainStage.setScene(scene);
+		mainStage.setScene(new Scene(mainPane));
 		
 		mainStage.show();
 	}
